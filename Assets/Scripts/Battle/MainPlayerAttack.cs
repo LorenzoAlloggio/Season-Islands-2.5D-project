@@ -1,31 +1,28 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MainPlayerAttack : MonoBehaviour
 {
     private GameObject attackArea = default;
-
     private bool attacking = false;
-
     private Animator animator;
-
     private float timeToAttack = 0.25f;
-    private float timer = 0f;
-
-    // Start is called before the first frame update
 
     private void Start()
     {
         animator = GetComponent<Animator>();
-        attackArea = transform.parent.GetChild(1).gameObject;
+        Transform parentTransform = transform.parent;
+        if (parentTransform != null && parentTransform.childCount > 1)
+        {
+            attackArea = parentTransform.GetChild(1).gameObject;
+        }
     }
 
     void Update()
     {
         bool isMoving = animator.GetBool("isMoving");
-        if (Input.GetKeyDown(KeyCode.Mouse0) && (!isMoving))
+
+        if (Input.GetMouseButtonDown(0) && (!isMoving))
         {
             Attack();
             animator.SetBool("Attack", true);
@@ -38,39 +35,47 @@ public class MainPlayerAttack : MonoBehaviour
 
         if (attacking)
         {
-            timer += Time.deltaTime;
-            if (timer > timeToAttack)
-            {
-                timer = 0;
-                attacking = false;
-                attackArea.SetActive(attacking);
-            }
+            // Attack duration is now handled by coroutine
         }
     }
 
     private void Attack()
     {
-        attacking = true;
-        attackArea.SetActive(attacking);
+        StartCoroutine(PerformAttack());
 
         // Check the direction and mirror animation if facing left
         bool isFacingLeft = animator.GetBool("isFacingLeft");
         if (isFacingLeft)
         {
-            MirrorAnimation();
+            MirrorAnimation("SwordAttackRight");
         }
     }
 
-    // Mirror the attack animation
-    private void MirrorAnimation()
+    private IEnumerator PerformAttack()
     {
-        // Assuming the player's sprite is a child of the main player object
+        attacking = true;
+        attackArea.SetActive(attacking);
+
+        yield return new WaitForSeconds(timeToAttack);
+
+        attacking = false;
+        attackArea.SetActive(attacking);
+    }
+
+    private void MirrorAnimation(string spriteName)
+    {
         Transform playerSprite = transform.Find("GFX");
+
         if (playerSprite != null)
         {
-            Vector3 localScale = playerSprite.localScale;
-            localScale.x *= -1f;
-            playerSprite.localScale = localScale;
+            Transform specificSprite = playerSprite.Find(spriteName);
+
+            if (specificSprite != null)
+            {
+                Vector3 localScale = specificSprite.localScale;
+                localScale.x *= -1f;
+                specificSprite.localScale = localScale;
+            }
         }
     }
 }
