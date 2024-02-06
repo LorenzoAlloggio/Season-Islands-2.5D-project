@@ -1,0 +1,4 @@
+repository "Season Islands 2.5D project@GamePlayzNL@cloud"
+  path "/"
+    br "/main"
+    co "/main"
