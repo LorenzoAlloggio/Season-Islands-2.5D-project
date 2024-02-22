@@ -5814,6 +5814,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SnowmanEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2311029331455272369, guid: 418e4e25f9487524eaecb27cbfc1c0f1,
+        type: 3}
+      propertyPath: navMeshAgent
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8403094184849258886, guid: 418e4e25f9487524eaecb27cbfc1c0f1,
         type: 3}
       propertyPath: m_LocalPosition.x
