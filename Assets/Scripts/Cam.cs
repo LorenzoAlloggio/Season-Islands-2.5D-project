@@ -2,8 +2,13 @@ using UnityEngine;
 
 public class Cam : MonoBehaviour
 {
+    public float collisionRadius = 0.2f;
+    public float collisionOffset = 0.1f;
+    public float collisionSmoothing = 10f;
+
     private ObjectFader _fader;
     private GameObject _player;
+    private Vector3 _desiredPosition;
 
     private void Start()
     {
@@ -21,13 +26,19 @@ public class Cam : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 HandleHitObject(hit.collider.gameObject);
+                _desiredPosition = hit.point + hit.normal * collisionOffset;
             }
+            else
+            {
+                _desiredPosition = _player.transform.position;
+            }
+
+            SmoothCollisionAvoidance();
         }
     }
 
     private void HandleHitObject(GameObject hitObject)
     {
-        
         if (hitObject == _player)
         {
             if (_fader != null)
@@ -49,5 +60,10 @@ public class Cam : MonoBehaviour
                 _fader.DoFade = true;
             }
         }
+    }
+
+    private void SmoothCollisionAvoidance()
+    {
+        transform.position = Vector3.Lerp(transform.position, _desiredPosition, Time.deltaTime * collisionSmoothing);
     }
 }

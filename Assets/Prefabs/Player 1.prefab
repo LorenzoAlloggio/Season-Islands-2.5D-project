@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9058850437512110050}
   - component: {fileID: 2603991013055593405}
   - component: {fileID: 8653067623129119460}
+  - component: {fileID: 6374411008951211502}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -98,6 +99,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   FloatingTextPrefab: {fileID: 0}
+--- !u!114 &6374411008951211502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3943085849378481800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a3848ce699cba4b95b1ecc7142a8c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  groundDist: 0.22
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  rb: {fileID: 2603991013055593405}
+  sr: {fileID: 5337834029659776473}
+  anim: {fileID: 7501372966968346368}
+  audioSrc: {fileID: 0}
 --- !u!1 &8772638463041156538
 GameObject:
   m_ObjectHideFlags: 0

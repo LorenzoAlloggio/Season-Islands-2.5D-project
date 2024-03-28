@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6288970215667020966}
   - component: {fileID: 2665496431306286479}
   - component: {fileID: 7671428663229341058}
+  - component: {fileID: 1586516404943663774}
+  - component: {fileID: 6994912425290954818}
   - component: {fileID: 8939921446656255914}
   - component: {fileID: 8819582723864712641}
   m_Layer: 0
@@ -130,6 +132,56 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.19573885
   m_Center: {x: -0.04, y: -0.1, z: 0}
+--- !u!135 &1586516404943663774
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283253663834769828}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.19573885
+  m_Center: {x: -0.04, y: -0.1, z: 0}
+--- !u!114 &6994912425290954818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283253663834769828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ada8921597c2f842a3441540361951c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 0}
+  startWaitTime: 4
+  timeToRotate: 2
+  speedWalk: 1
+  speedRun: 1
+  viewRadius: 15
+  viewAngle: 90
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!54 &8939921446656255914
 Rigidbody:
   m_ObjectHideFlags: 0

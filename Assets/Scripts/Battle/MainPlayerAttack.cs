@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class MainPlayerAttack : MonoBehaviour
@@ -7,6 +8,7 @@ public class MainPlayerAttack : MonoBehaviour
     private bool attacking = false;
     private Animator animator;
     private float timeToAttack = 0.25f;
+    public TMP_Text debugLogText; // Reference to the Text component for debug logs
 
     private void Start()
     {
@@ -55,11 +57,13 @@ public class MainPlayerAttack : MonoBehaviour
     {
         attacking = true;
         attackArea.SetActive(attacking);
+        LogToDebug("Attack True");
 
         yield return new WaitForSeconds(timeToAttack);
 
         attacking = false;
         attackArea.SetActive(attacking);
+        LogToDebug("Attack False");
     }
 
     private void MirrorAnimation(string spriteName)
@@ -76,6 +80,13 @@ public class MainPlayerAttack : MonoBehaviour
                 localScale.x *= -1f;
                 specificSprite.localScale = localScale;
             }
+        }
+    }
+   private void LogToDebug(string message)
+    {
+        if (debugLogText != null)
+        {
+            debugLogText.text = message;
         }
     }
 }

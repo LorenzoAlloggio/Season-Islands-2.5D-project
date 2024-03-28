@@ -1,17 +1,18 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public float speed;
+    public float jumpForce;
     public float groundDist;
-
     public LayerMask terrainLayer;
     public Rigidbody rb;
     public SpriteRenderer sr;
     public Animator anim;
     public AudioSource audioSrc; // Make sure to assign the AudioSource in the Inspector
+
+    private bool isGrounded;
 
     private void Start()
     {
@@ -31,14 +32,28 @@ public class PlayerController : MonoBehaviour
                 Vector3 movePos = transform.position;
                 movePos.y = hit.point.y + groundDist;
                 transform.position = movePos;
+                isGrounded = true; // Update grounded state
             }
+        }
+        else
+        {
+            isGrounded = false; // Update grounded state
         }
 
         // Player Movement
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-        Vector3 moveDir = new Vector3(x, 0, y).normalized;
-        rb.velocity = moveDir * speed;
+
+        Vector3 moveDir = (transform.forward * y + transform.right * x).normalized;
+
+        rb.velocity = new Vector3(moveDir.x * speed, rb.velocity.y, moveDir.z * speed); // Preserve vertical velocity
+
+        // Jumping
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false; // Update grounded state
+        }
 
         // Animation Control
         if (x != 0 || y != 0)
@@ -62,28 +77,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-
-        // Ensure that only one component is active at a time to prevent diagonal movement
-        if (Mathf.Abs(x) > Mathf.Abs(y))
-        {
-            y = 0f;
-        }
-        else
-        {
-            x = 0f;
-        }
-
-        Vector3 moveDir = new Vector3(x, 0, y);
-        rb.velocity = moveDir.normalized * speed;
-    }
-
     private void StopMoving()
     {
-        rb.velocity = Vector3.zero;
+        rb.velocity = new Vector3(0, rb.velocity.y, 0); // Stop horizontal movement
     }
 
     private void PlayMovingSound()
@@ -105,4 +101,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void RotateSpritesToCam()
+    {
+        Vector3 targetVector = Camera.main.transform.position - transform.position;
+
+        float newYAngle = Mathf.Atan2(targetVector.z, targetVector.x) * Mathf.Rad2Deg;
+
+        transform.rotation = Quaternion.Euler(0, -1 * newYAngle, 0);
+    }
 }
